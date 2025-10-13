@@ -11,7 +11,7 @@ builder.Services.AddRazorPages();
 var connectionString = Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb")
     ?? builder.Configuration.GetConnectionString("MySql");
 
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 36)); // подставь свою версию, если знаешь точную
+var serverVersion = new MySqlServerVersion(new Version(5, 7, 9)); // подставь свою версию, если знаешь точную
 
 builder.Services.AddDbContext<InventoryDbContext>(opt =>
     opt.UseMySql(connectionString, serverVersion));
