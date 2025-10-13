@@ -8,13 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-var connectionString = Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb")
-    ?? builder.Configuration.GetConnectionString("MySql");
-
-var serverVersion = new MySqlServerVersion(new Version(5, 7, 9)); // подставь свою версию, если знаешь точную
+var connectionString = Environment.GetEnvironmentVariable("SQLITE_CONNECTION")
+    ?? builder.Configuration["Sqlite"];
 
 builder.Services.AddDbContext<InventoryDbContext>(opt =>
-    opt.UseMySql(connectionString, serverVersion));
+    opt.UseSqlite(connectionString));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<InventoryDbContext>()
