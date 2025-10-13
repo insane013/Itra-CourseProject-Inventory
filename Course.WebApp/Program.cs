@@ -1,9 +1,53 @@
+using Course.Database;
+using Course.Database.Entity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+var connectionString = Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb")
+    ?? builder.Configuration.GetConnectionString("MySql");
+
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 36)); // подставь свою версию, если знаешь точную
+
+builder.Services.AddDbContext<InventoryDbContext>(opt =>
+    opt.UseMySql(connectionString, serverVersion));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<InventoryDbContext>()
+                .AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/Login";
+});
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;           
+    options.Password.RequireLowercase = false;        
+    options.Password.RequireUppercase = false;        
+    options.Password.RequireNonAlphanumeric = false; 
+    options.Password.RequiredLength = 1;             
+    options.Password.RequiredUniqueChars = 1;        
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    options.User.RequireUniqueEmail = true;
+});
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<InventoryDbContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -17,6 +61,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
