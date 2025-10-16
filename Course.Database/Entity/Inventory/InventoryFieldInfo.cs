@@ -2,10 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Course.Database.Entity;
 
-public class InventoryFieldInfo
+public class InventoryFieldInfo : BaseEntity
 {
-    public int Id { get; set; }
-    public int InventoryId { get; set; }
+    public Guid InventoryId { get; set; }
     public string FieldName { get; set; } = string.Empty;
     public string FieldType { get; set; } = string.Empty;
     public string DisplayName { get; set; } = string.Empty;

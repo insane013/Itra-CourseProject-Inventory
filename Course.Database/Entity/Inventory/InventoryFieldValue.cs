@@ -2,11 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Course.Database.Entity;
 
-public class InventoryFieldValue
+public class InventoryFieldValue : BaseEntity
 {
-    public int Id { get; set; }
-    public int InventoryItemId { get; set; }
-    public int FieldInfoId { get; set; }
+    public Guid InventoryItemId { get; set; }
+    public Guid FieldInfoId { get; set; }
     public string? Value { get; set; }
 
     [Timestamp]

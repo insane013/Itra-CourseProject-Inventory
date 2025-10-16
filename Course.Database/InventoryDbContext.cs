@@ -29,6 +29,12 @@ public class InventoryDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(i => i.CreatorId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Entity<Inventory>()
+            .HasOne(i => i.Category)
+            .WithMany(c => c.Inventories)
+            .HasForeignKey(i => i.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Entity<UserAccess>()
             .HasKey(ua => new { ua.InventoryId, ua.UserId });
 
