@@ -72,7 +72,7 @@ public class InventoryDbContext : IdentityDbContext<ApplicationUser>
 
         builder.Entity<InventoryFieldValue>()
             .HasOne(fv => fv.InventoryItem)
-            .WithMany(ii => ii.CustomFields)
+            .WithMany(ii => ii.CustomFieldValues)
             .HasForeignKey(fv => fv.InventoryItemId);
 
         builder.Entity<UserLikes>()

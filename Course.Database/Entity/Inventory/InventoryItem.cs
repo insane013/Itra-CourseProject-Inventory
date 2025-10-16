@@ -12,7 +12,7 @@ public class InventoryItem : BaseEntity
     [Timestamp]
     public required byte[] RowVersion { get; set; }
     
-    public ICollection<InventoryFieldValue> CustomFields { get; set; } = new List<InventoryFieldValue>();
+    public ICollection<InventoryFieldValue> CustomFieldValues { get; set; } = new List<InventoryFieldValue>();
     public ICollection<UserLikes> Likes { get; set; } = new List<UserLikes>();
     public Inventory? Inventory { get; set; }
     public ApplicationUser? User { get; set; }

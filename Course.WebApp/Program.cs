@@ -1,5 +1,7 @@
 using Course.Database;
 using Course.Database.Entity;
+using Course.Database.Repository;
+using Course.Database.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,18 +28,24 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.Password.RequireDigit = false;           
-    options.Password.RequireLowercase = false;        
-    options.Password.RequireUppercase = false;        
-    options.Password.RequireNonAlphanumeric = false; 
-    options.Password.RequiredLength = 1;             
-    options.Password.RequiredUniqueChars = 1;        
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 1;
+    options.Password.RequiredUniqueChars = 1;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
 
     options.User.RequireUniqueEmail = true;
 });
+
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IFieldInfoRepository, FieldInfoRepository>();
+builder.Services.AddScoped<IRepository<InventoryFieldValue>, FieldValueRepository>();
 
 var app = builder.Build();
 
