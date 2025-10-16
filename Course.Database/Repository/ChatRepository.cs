@@ -1,4 +1,4 @@
-using Course.Database.Entity;
+using Course.Database.Entity.Chat;
 using Course.Database.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

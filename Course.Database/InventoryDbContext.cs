@@ -1,4 +1,7 @@
 ﻿using Course.Database.Entity;
+using Course.Database.Entity.Chat;
+using Course.Database.Entity.Inventory;
+using Course.Database.Entity.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,13 +9,14 @@ namespace Course.Database;
 
 public class InventoryDbContext : IdentityDbContext<ApplicationUser>
 {
-    public DbSet<Inventory> Inventories { get; set; }
+    public DbSet<InventoryEntity> Inventories { get; set; }
     public DbSet<ChatMessage> ChatMessages { get; set; }
     public DbSet<UserAccess> UserAccesses { get; set; }
     public DbSet<InventoryFieldInfo> FieldDefinitions { get; set; }
     public DbSet<InventoryItem> InventoryItems { get; set; }
     public DbSet<InventoryFieldValue> FieldValues { get; set; }
     public DbSet<UserLikes> UserLikes { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
         : base(options)
@@ -23,13 +27,13 @@ public class InventoryDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<Inventory>()
+        builder.Entity<InventoryEntity>()
             .HasOne(i => i.Creator)
             .WithMany(u => u.CreatedInventories)
             .HasForeignKey(i => i.CreatorId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Entity<Inventory>()
+        builder.Entity<InventoryEntity>()
             .HasOne(i => i.Category)
             .WithMany(c => c.Inventories)
             .HasForeignKey(i => i.CategoryId)

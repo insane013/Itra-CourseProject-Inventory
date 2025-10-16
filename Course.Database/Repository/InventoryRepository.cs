@@ -1,10 +1,10 @@
-using Course.Database.Entity;
+using Course.Database.Entity.Inventory;
 using Course.Database.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Course.Database.Repository;
 
-public class InventoryRepository : BaseRepository<Inventory>, IInventoryRepository
+public class InventoryRepository : BaseRepository<InventoryEntity>, IInventoryRepository
 {
     public InventoryRepository(InventoryDbContext context)
         : base(context, context.Inventories)
@@ -12,7 +12,7 @@ public class InventoryRepository : BaseRepository<Inventory>, IInventoryReposito
         
     }
 
-    public async Task<IEnumerable<Inventory>> GetAll()
+    public async Task<IEnumerable<InventoryEntity>> GetAll()
     {
         return await this._dbSet
                    .Include(i => i.Creator)
@@ -21,7 +21,7 @@ public class InventoryRepository : BaseRepository<Inventory>, IInventoryReposito
                    .ToListAsync();
     }
 
-    public override async Task<Inventory?> GetById(Guid id)
+    public override async Task<InventoryEntity?> GetById(Guid id)
     {
         return await this._dbSet
             .Include(i => i.Creator)

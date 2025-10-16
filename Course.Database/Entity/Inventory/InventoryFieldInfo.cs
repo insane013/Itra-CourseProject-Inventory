@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Course.Database.Entity;
+namespace Course.Database.Entity.Inventory;
 
 public class InventoryFieldInfo : BaseEntity
 {
@@ -14,5 +14,5 @@ public class InventoryFieldInfo : BaseEntity
     [Timestamp]
     public required byte[] RowVersion { get; set; }
 
-    public Inventory? Inventory { get; set; }
+    public InventoryEntity? Inventory { get; set; }
 }

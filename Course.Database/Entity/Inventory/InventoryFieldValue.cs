@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Course.Database.Entity;
+namespace Course.Database.Entity.Inventory;
 
 public class InventoryFieldValue : BaseEntity
 {

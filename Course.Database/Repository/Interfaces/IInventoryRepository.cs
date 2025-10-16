@@ -1,8 +1,8 @@
-using Course.Database.Entity;
+using Course.Database.Entity.Inventory;
 
 namespace Course.Database.Repository.Interfaces;
 
-public interface IInventoryRepository : IRepository<Inventory>
+public interface IInventoryRepository : IRepository<InventoryEntity>
 {
-    public Task<IEnumerable<Inventory>> GetAll();
+    public Task<IEnumerable<InventoryEntity>> GetAll();
 }

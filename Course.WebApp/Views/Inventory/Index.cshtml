@@ -1,0 +1,25 @@
+@using Course.Database.Entity.Inventory
+@model IEnumerable<InventoryEntity>
+
+<div class="container mt-4">
+    <h3 class="mb-3">Inventory</h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 120px;">Image</th>
+                    <th style="width: 20%;">Title</th>
+                    <th style="width: 40%;">Description</th>
+                    <th style="width: 20%;">Creator</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var inventory in Model)
+                {
+                    @await Html.PartialAsync("_InventoryTableViewItem", inventory)
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-using Course.Database.Entity;
+using Course.Database.Entity.Inventory;
 using Course.Database.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

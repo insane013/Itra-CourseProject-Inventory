@@ -1,4 +1,6 @@
-namespace Course.Database.Entity;
+using Course.Database.Entity.Inventory;
+
+namespace Course.Database.Entity.User;
 
 public class UserLikes
 {

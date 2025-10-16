@@ -1,5 +1,6 @@
 using Course.Database;
-using Course.Database.Entity;
+using Course.Database.Entity.Inventory;
+using Course.Database.Entity.User;
 using Course.Database.Repository;
 using Course.Database.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 
 var connectionString = Environment.GetEnvironmentVariable("SQLITE_CONNECTION")
     ?? builder.Configuration["Sqlite"];

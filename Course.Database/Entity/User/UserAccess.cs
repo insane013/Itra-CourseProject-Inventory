@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Course.Core.Enums;
+using Course.Database.Entity.Inventory;
 
-namespace Course.Database.Entity;
+namespace Course.Database.Entity.User;
 
 public class UserAccess
 {
@@ -12,6 +13,6 @@ public class UserAccess
     [Timestamp]
     public required byte[] RowVersion { get; set; }
 
-    public Inventory? Inventory { get; set; }
+    public InventoryEntity? Inventory { get; set; }
     public ApplicationUser? User { get; set; }
 }

@@ -1,0 +1,11 @@
+@using Course.Database.Entity.Inventory
+@model InventoryEntity
+
+<tr>
+    <td>
+        <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid rounded" style="max-height: 80px;">
+    </td>
+    <td class="text-truncate" style="max-width: 200px;">@Model.Title</td>
+    <td class="text-start">@Model.Description</td>
+    <td>@Model.Creator?.UserName</td>
+</tr>

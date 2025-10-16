@@ -1,13 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+using Course.Database.Entity.Chat;
+using Course.Database.Entity.User;
 
-namespace Course.Database.Entity;
+namespace Course.Database.Entity.Inventory;
 
-public class Inventory : BaseEntity
+public class InventoryEntity : BaseEntity
 {
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;
-    public string CreatorId { get; set; } = string.Empty;
+    public string? CreatorId { get; set; } = string.Empty;
     public Guid? CategoryId { get; set; }
     public bool IsPublic { get; set; }
 

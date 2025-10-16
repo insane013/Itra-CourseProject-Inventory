@@ -1,4 +1,4 @@
-using Course.Database.Entity;
+using Course.Database.Entity.Chat;
 
 namespace Course.Database.Repository.Interfaces;
 
