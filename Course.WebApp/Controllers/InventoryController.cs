@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Identity;
 using Course.Database.Entity.User;
 using Course.WebApp.Helpers;
 using Course.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Course.WebApp.Controllers;
 
+[Authorize]
 [Route("Inventory")]
 public class InventoryController : BaseController
 {

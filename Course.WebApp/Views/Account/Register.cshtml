@@ -1,0 +1,64 @@
+@using Course.Models.User
+@model UserRegisterDto
+@{
+    var errors = this.TempData["Errors"] as IEnumerable<string>;
+}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm rounded-4 mb-1">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4 fw-bold">Sign Up</h2>
+
+                <form method="post" asp-action="Register">
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email: </label>
+                        <input type="email" class="form-control" asp-for="Email" required placeholder="Enter an email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password: </label>
+                        <input type="password" class="form-control" asp-for="UserPassword" required placeholder="Enter the password" />
+                        <span asp-validation-for="UserPassword" class="text-danger"></span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm password:</label>
+                        <input type="password" class="form-control" asp-for="ConfirmPassword" required placeholder="Confirm the password." />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">Full name:</label>
+                        <input type="text" class="form-control" asp-for="UserName" required placeholder="Enter your full name." />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Register button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">Sign Up</button>
+                    </div>
+                </form>
+
+                <!-- Links -->
+                <div class="text-center mt-4">
+                    <p class="mb-1">
+                        Already have an account?
+                        <a href="/Account/Login" class="link-primary fw-semibold">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        @if (errors != null)
+        {
+            foreach(var error in errors) {
+                @await Html.PartialAsync("_errorDisplay", error)
+            }
+        }
+    </div>
+</div>

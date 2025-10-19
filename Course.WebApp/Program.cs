@@ -3,10 +3,12 @@ using Course.Database.Entity.Inventory;
 using Course.Database.Entity.User;
 using Course.Database.Repository;
 using Course.Database.Repository.Interfaces;
+using Course.Services.Authentication;
 using Course.Services.Inventory;
 using Course.Services.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Task5.WebApi.Services.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +47,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(InventoryMapper));
+builder.Services.AddAutoMapper(cfg => { }, typeof(UserMapper));
 
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
@@ -53,6 +56,7 @@ builder.Services.AddScoped<IFieldInfoRepository, FieldInfoRepository>();
 builder.Services.AddScoped<IRepository<InventoryFieldValue>, FieldValueRepository>();
 
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 
