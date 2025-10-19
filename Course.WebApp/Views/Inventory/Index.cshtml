@@ -1,26 +1,45 @@
 @using Course.Core
-@using Course.Models.Inventory
-@model PaginatedResult<InventoryCommonView>
+@using Course.Models.ViewModels
+@model DashboardView
+
+@{
+    ViewBag.Title = "Inventory Dashboard";
+}
 
 <div class="container mt-4">
-    <h3 class="mb-3">Inventory</h3>
+    <div class="row g-4">
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th style="width: 120px;">Image</th>
-                    <th style="width: 20%;">Title</th>
-                    <th style="width: 40%;">Description</th>
-                    <th style="width: 20%;">Creator</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var inventory in Model.Items)
-                {
-                    @await Html.PartialAsync("_InventoryTableViewItem", inventory)
-                }
-            </tbody>
-        </table>
+        <!-- Левая колонка (1 и 2) — Топ популярных инвентарей -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Top Popular Inventories</h5>
+                </div>
+                @await Html.PartialAsync("_InventoryMiniTable", Model.TopInventories)
+            </div>
+        </div>
+
+        <!-- Правая колонка (3 и 4) -->
+        <div class="col-lg-6 d-flex flex-column gap-4">
+
+            <!-- Верхняя карточка — последние посещённые -->
+            <div class="card shadow-sm flex-fill">
+                <div class="card-header bg-secondary text-white">
+                    <h6 class="mb-0">Recently Visited</h6>
+                </div>
+                @await Html.PartialAsync("_InventoryMiniTable", Model.RecentInventories)
+            </div>
+
+            <!-- Нижняя карточка — облако тегов -->
+            <div class="card shadow-sm flex-fill">
+                <div class="card-header bg-secondary text-white">
+                    <h6 class="mb-0">Tag Cloud</h6>
+                </div>
+                <div class="card-body">
+                    
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Course.Database.Entity.User;
 using Course.WebApp.Helpers;
+using Course.Models.ViewModels;
 
 namespace Course.WebApp.Controllers;
 
@@ -24,7 +25,8 @@ public class InventoryController : BaseController
     public async Task<IActionResult> Index()
     {
         var res = await this.inventoryService.GetFullInventoryList(new InventoryFilter { PageNumber = 1, PageSize = 20 });
-        return View(res);
+        var dash = new DashboardView { RecentInventories = res.Items, TopInventories = res.Items };
+        return View(dash);
     }
 
     [HttpGet]

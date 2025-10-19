@@ -1,0 +1,27 @@
+@using Course.Core
+@using Course.Models.Inventory
+@model IEnumerable<InventoryCommonView>
+
+@{
+    Layout = null;
+}
+
+<div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 120px;">Image</th>
+                    <th style="width: 30%;">Title</th>
+                    <th style="width: 30%;">Creator</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var inventory in Model)
+                {
+                    @await Html.PartialAsync("_InventoryTableViewMini", inventory)
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
