@@ -21,7 +21,7 @@ public class InventoryRepository : BaseRepository<InventoryEntity>, IInventoryRe
                    .ToListAsync();
     }
 
-    public override async Task<InventoryEntity?> GetById(Guid id)
+    public override async Task<InventoryEntity?> GetById(string id)
     {
         return await this._dbSet
             .Include(i => i.Creator)

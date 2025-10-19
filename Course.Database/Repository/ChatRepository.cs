@@ -12,7 +12,7 @@ public class ChatRepository : BaseRepository<ChatMessage>, IChatRepository
 
     }
 
-    public async Task<IEnumerable<ChatMessage>> GetFromInventory(Guid InventoryId)
+    public async Task<IEnumerable<ChatMessage>> GetFromInventory(string InventoryId)
     {
         return await this._dbSet
                     .Where(ii => ii.InventoryId == InventoryId)
@@ -22,7 +22,7 @@ public class ChatRepository : BaseRepository<ChatMessage>, IChatRepository
                     .ToListAsync();
     }
 
-    public override async Task<ChatMessage?> GetById(Guid id)
+    public override async Task<ChatMessage?> GetById(string id)
     {
         return await this._dbSet
             .Include(ii => ii.User)

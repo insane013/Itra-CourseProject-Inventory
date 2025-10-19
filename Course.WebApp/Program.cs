@@ -3,6 +3,8 @@ using Course.Database.Entity.Inventory;
 using Course.Database.Entity.User;
 using Course.Database.Repository;
 using Course.Database.Repository.Interfaces;
+using Course.Services.Inventory;
+using Course.Services.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var connectionString = Environment.GetEnvironmentVariable("SQLITE_CONNECTION")
-    ?? builder.Configuration["Sqlite"];
+    ?? builder.Configuration["ConnectionStrings:Sqlite"];
 
 builder.Services.AddDbContext<InventoryDbContext>(opt =>
     opt.UseSqlite(connectionString));
@@ -42,11 +44,15 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
+builder.Services.AddAutoMapper(cfg => { }, typeof(InventoryMapper));
+
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IInventoryItemRepository, InventoryItemRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IFieldInfoRepository, FieldInfoRepository>();
 builder.Services.AddScoped<IRepository<InventoryFieldValue>, FieldValueRepository>();
+
+builder.Services.AddScoped<IInventoryService, InventoryService>();
 
 var app = builder.Build();
 
@@ -65,14 +71,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseRouting();
+app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapControllers();
 
 app.Run();

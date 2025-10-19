@@ -4,5 +4,5 @@ namespace Course.Database.Repository.Interfaces;
 
 public interface IFieldInfoRepository : IRepository<InventoryFieldInfo>
 {
-    public Task<IEnumerable<InventoryFieldInfo>> GetFromInventory(Guid InventoryId);
+    public Task<IEnumerable<InventoryFieldInfo>> GetFromInventory(string InventoryId);
 }

@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Course.Core;
+using Course.Core.Exceptions;
+using Course.Database.Entity.Inventory;
 using Course.Database.Repository.Interfaces;
 using Course.Models.Inventory;
 using Course.Services.Mapper;
@@ -31,5 +33,29 @@ public class InventoryService : BaseService, IInventoryService
             filter.PageSize,
             x => this.mapper.Map<InventoryCommonView>(x)
         );
+    }
+
+    async Task<InventoryCommonView?> IInventoryService.CreateInventory(string? currentUserId, InventoryCreateDto model)
+    {
+        await this.CheckUserAccess(currentUserId);
+
+        var entity = this.mapper.Map<InventoryEntity>(model);
+
+        this._logger.LogWarning($"Category: {entity.CategoryId}");
+        this._logger.LogWarning($"User: {entity.CreatorId}");
+
+        var res = await this.repository.Add(entity);
+
+        return this.mapper.Map<InventoryCommonView>(res);
+    }
+
+    private async Task CheckUserAccess(string? userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            // throw new AccessDeniedException("You have to login to non-blocked account to use the app.");
+        }
+
+        // implement in dedicated service
     }
 }

@@ -1,35 +1,59 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Course.Database.Repository.Interfaces;
+using Course.Services.Inventory;
+using Course.Models.Inventory;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Course.Database.Entity.User;
+using Course.WebApp.Helpers;
 
 namespace Course.WebApp.Controllers;
 
 [Route("Inventory")]
-public class InventoryController : Controller
+public class InventoryController : BaseController
 {
-    private readonly ILogger<InventoryController> _logger;
-    private readonly IInventoryRepository inventoryService;
+    private readonly IInventoryService inventoryService;
+    private readonly UserManager<ApplicationUser> userManager;
 
-    public InventoryController(ILogger<InventoryController> logger, IInventoryRepository inventoryService)
+    public InventoryController(ILogger<InventoryController> logger, IInventoryService inventoryService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+    : base(logger, signInManager)
     {
-        _logger = logger;
         this.inventoryService = inventoryService;
+        this.userManager = userManager;
     }
 
+    [Route("")]
     public async Task<IActionResult> Index()
     {
-        var res = await this.inventoryService.GetAll();
+        var res = await this.inventoryService.GetFullInventoryList(new InventoryFilter { PageNumber = 1, PageSize = 20 });
         return View(res);
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    [HttpGet]
+    [Route("Create")]
+    public async Task<IActionResult> Create()
     {
-        return View("Error!");
+        return View(new InventoryCreateDto());
+    }
+
+    [HttpPost]
+    [Route("Create")]
+    //[RequireUserId]
+    public async Task<IActionResult> Create(InventoryCreateDto model)
+    {
+        this.Logger.LogInformation($"Create inventory: {model.ToString()}");
+
+        await this.inventoryService.CreateInventory("123", model);
+
+        return this.RedirectToAction("Index", controllerName: "Inventory");
+    }
+
+    [HttpPost]
+    [Route("Register")]
+    //[RequireUserId]
+    public async Task<IActionResult> Register(string email, string password)
+    {
+        var user = new ApplicationUser { Email = email, UserName = email };
+        await this.userManager.CreateAsync(user, password);
+
+        return this.RedirectToAction("Index", controllerName: "Inventory");
     }
 }

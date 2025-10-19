@@ -12,7 +12,7 @@ public class InventoryItemRepository : BaseRepository<InventoryItem>, IInventory
 
     }
 
-    public async Task<IEnumerable<InventoryItem>> GetFromInventory(Guid InventoryId)
+    public async Task<IEnumerable<InventoryItem>> GetFromInventory(string InventoryId)
     {
         return await this._dbSet
                     .Where(ii => ii.InventoryId == InventoryId)
@@ -24,7 +24,7 @@ public class InventoryItemRepository : BaseRepository<InventoryItem>, IInventory
                     .ToListAsync();
     }
 
-    public override async Task<InventoryItem?> GetById(Guid id)
+    public override async Task<InventoryItem?> GetById(string id)
     {
         return await this._dbSet
             .Include(ii => ii.User)

@@ -10,11 +10,13 @@ public class InventoryEntity : BaseEntity
     public string Description { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;
     public string? CreatorId { get; set; } = string.Empty;
-    public Guid? CategoryId { get; set; }
+    public string? CategoryId { get; set; }
     public bool IsPublic { get; set; }
 
-    [Timestamp]
-    public required byte[] RowVersion { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    [ConcurrencyCheck]
+    public Guid Version { get; set; }
 
     public ApplicationUser? Creator { get; set; }
     public Category? Category { get; set; }

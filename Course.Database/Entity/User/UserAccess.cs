@@ -6,12 +6,12 @@ namespace Course.Database.Entity.User;
 
 public class UserAccess
 {
-    public Guid InventoryId { get; set; }
-    public string UserId { get; set; } = string.Empty;
+    public required string InventoryId { get; set; }
+    public required string UserId { get; set; }
     public AccessLevel AccessLevel { get; set; }
 
-    [Timestamp]
-    public required byte[] RowVersion { get; set; }
+    [ConcurrencyCheck]
+    public Guid Version { get; set; }
 
     public InventoryEntity? Inventory { get; set; }
     public ApplicationUser? User { get; set; }

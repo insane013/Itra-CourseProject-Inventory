@@ -19,8 +19,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.Chat.ChatMessage", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
@@ -29,7 +28,8 @@ namespace Course.Database.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("InventoryId")
+                    b.Property<string>("InventoryId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Message")
@@ -47,8 +47,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.Inventory.Category", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -62,11 +61,13 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryEntity", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("CategoryId")
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CreatorId")
@@ -83,14 +84,12 @@ namespace Course.Database.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("INTEGER");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
-
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -104,8 +103,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryFieldInfo", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
@@ -124,17 +122,16 @@ namespace Course.Database.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("InventoryId")
+                    b.Property<string>("InventoryId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsShown")
                         .HasColumnType("INTEGER");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -145,26 +142,25 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryFieldValue", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("FieldId")
+                    b.Property<string>("FieldId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("FieldInfoId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InventoryItemId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
+                    b.Property<string>("FieldInfoId")
                         .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InventoryItemId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -178,8 +174,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryItem", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
@@ -192,16 +187,15 @@ namespace Course.Database.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("InventoryId")
+                    b.Property<string>("InventoryId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
-
                     b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -279,7 +273,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.User.UserAccess", b =>
                 {
-                    b.Property<Guid>("InventoryId")
+                    b.Property<string>("InventoryId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -288,11 +282,9 @@ namespace Course.Database.Migrations
                     b.Property<int>("AccessLevel")
                         .HasColumnType("INTEGER");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("InventoryId", "UserId");
 
@@ -303,7 +295,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Course.Database.Entity.User.UserLikes", b =>
                 {
-                    b.Property<Guid>("InventoryItemId")
+                    b.Property<string>("InventoryItemId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")

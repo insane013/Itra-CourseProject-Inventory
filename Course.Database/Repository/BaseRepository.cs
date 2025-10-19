@@ -15,7 +15,7 @@ public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity
         this._dbSet = dbSet;
     }
 
-    public abstract Task<T?> GetById(Guid id);
+    public abstract Task<T?> GetById(string id);
 
     public virtual async Task<T?> Add(T entity)
     {
@@ -24,7 +24,7 @@ public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity
         return result.Entity;
     }
 
-    public virtual async Task<bool> Delete(Guid id)
+    public virtual async Task<bool> Delete(string id)
     {
         var entity = await this._dbSet.FindAsync(id);
 

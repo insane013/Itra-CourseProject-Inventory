@@ -1,5 +1,6 @@
-@using Course.Database.Entity.Inventory
-@model InventoryEntity
+@using Course.Models.Inventory
+
+@model InventoryCommonView
 
 <tr>
     <td>
@@ -7,5 +8,5 @@
     </td>
     <td class="text-truncate" style="max-width: 200px;">@Model.Title</td>
     <td class="text-start">@Model.Description</td>
-    <td>@Model.Creator?.UserName</td>
+    <td>@Model.CreatorName</td>
 </tr>

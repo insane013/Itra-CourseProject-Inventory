@@ -11,7 +11,7 @@ public class FieldValueRepository : BaseRepository<InventoryFieldValue>
 
     }
 
-    public override async Task<InventoryFieldValue?> GetById(Guid id)
+    public override async Task<InventoryFieldValue?> GetById(string id)
     {
         return await this._dbSet
             .Include(fv => fv.InventoryItem)

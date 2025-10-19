@@ -4,5 +4,5 @@ namespace Course.Database.Repository.Interfaces;
 
 public interface IChatRepository : IRepository<ChatMessage>
 {
-    public Task<IEnumerable<ChatMessage>> GetFromInventory(Guid InventoryId);
+    public Task<IEnumerable<ChatMessage>> GetFromInventory(string InventoryId);
 }

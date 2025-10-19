@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace Task5.Services.Logging;
+namespace Course.Services.Logging;
 
 public partial class RegistrationLogs
 {

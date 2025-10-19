@@ -1,5 +1,6 @@
-@using Course.Database.Entity.Inventory
-@model IEnumerable<InventoryEntity>
+@using Course.Core
+@using Course.Models.Inventory
+@model PaginatedResult<InventoryCommonView>
 
 <div class="container mt-4">
     <h3 class="mb-3">Inventory</h3>
@@ -15,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var inventory in Model)
+                @foreach (var inventory in Model.Items)
                 {
                     @await Html.PartialAsync("_InventoryTableViewItem", inventory)
                 }

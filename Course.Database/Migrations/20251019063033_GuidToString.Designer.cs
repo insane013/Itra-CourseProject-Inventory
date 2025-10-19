@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Course.Database.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
-    [Migration("20251016015120_ChangeIdFormat")]
-    partial class ChangeIdFormat
+    [Migration("20251019063033_GuidToString")]
+    partial class GuidToString
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,197 @@ namespace Course.Database.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
 
-            modelBuilder.Entity("Course.Database.Entity.ApplicationUser", b =>
+            modelBuilder.Entity("Course.Database.Entity.Chat.ChatMessage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InventoryId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.HasIndex("InventoryId");
+
+                    b.ToTable("ChatMessages");
+                });
+
+            modelBuilder.Entity("Course.Database.Entity.Inventory.Category", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryEntity", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Inventories");
+                });
+
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryFieldInfo", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FieldDescription")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FieldName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FieldType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InventoryId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsShown")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryId");
+
+                    b.ToTable("FieldDefinitions");
+                });
+
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryFieldValue", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FieldId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FieldInfoId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InventoryItemId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId");
+
+                    b.HasIndex("InventoryItemId");
+
+                    b.ToTable("FieldValues");
+                });
+
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryItem", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InventoryId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("InventoryItems");
+                });
+
+            modelBuilder.Entity("Course.Database.Entity.User.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -84,208 +274,9 @@ namespace Course.Database.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.Category", b =>
+            modelBuilder.Entity("Course.Database.Entity.User.UserAccess", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("Course.Database.Entity.ChatMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InventoryId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("InventoryId");
-
-                    b.ToTable("ChatMessages");
-                });
-
-            modelBuilder.Entity("Course.Database.Entity.Inventory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsPublic")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("Inventories");
-                });
-
-            modelBuilder.Entity("Course.Database.Entity.InventoryFieldInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FieldDescription")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FieldName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FieldType")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InventoryId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsShown")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryId");
-
-                    b.ToTable("FieldDefinitions");
-                });
-
-            modelBuilder.Entity("Course.Database.Entity.InventoryFieldValue", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid?>("FieldId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("FieldInfoId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InventoryItemId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FieldId");
-
-                    b.HasIndex("InventoryItemId");
-
-                    b.ToTable("FieldValues");
-                });
-
-            modelBuilder.Entity("Course.Database.Entity.InventoryItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CustomId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("InventoryId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InventoryId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("InventoryItems");
-                });
-
-            modelBuilder.Entity("Course.Database.Entity.UserAccess", b =>
-                {
-                    b.Property<Guid>("InventoryId")
+                    b.Property<string>("InventoryId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -294,11 +285,9 @@ namespace Course.Database.Migrations
                     b.Property<int>("AccessLevel")
                         .HasColumnType("INTEGER");
 
-                    b.Property<byte[]>("RowVersion")
+                    b.Property<Guid>("Version")
                         .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("BLOB");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("InventoryId", "UserId");
 
@@ -307,9 +296,9 @@ namespace Course.Database.Migrations
                     b.ToTable("UserAccesses");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.UserLikes", b =>
+            modelBuilder.Entity("Course.Database.Entity.User.UserLikes", b =>
                 {
-                    b.Property<Guid>("InventoryItemId")
+                    b.Property<string>("InventoryItemId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
@@ -453,15 +442,14 @@ namespace Course.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.ChatMessage", b =>
+            modelBuilder.Entity("Course.Database.Entity.Chat.ChatMessage", b =>
                 {
-                    b.HasOne("Course.Database.Entity.ApplicationUser", "User")
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", "User")
                         .WithMany("Messages")
                         .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Course.Database.Entity.Inventory", "Inventory")
+                    b.HasOne("Course.Database.Entity.Inventory.InventoryEntity", "Inventory")
                         .WithMany("Chat")
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -472,27 +460,26 @@ namespace Course.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.Inventory", b =>
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryEntity", b =>
                 {
-                    b.HasOne("Course.Database.Entity.Category", "Category")
+                    b.HasOne("Course.Database.Entity.Inventory.Category", "Category")
                         .WithMany("Inventories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Course.Database.Entity.ApplicationUser", "Creator")
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", "Creator")
                         .WithMany("CreatedInventories")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Category");
 
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.InventoryFieldInfo", b =>
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryFieldInfo", b =>
                 {
-                    b.HasOne("Course.Database.Entity.Inventory", "Inventory")
+                    b.HasOne("Course.Database.Entity.Inventory.InventoryEntity", "Inventory")
                         .WithMany("CustomFields")
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -501,14 +488,14 @@ namespace Course.Database.Migrations
                     b.Navigation("Inventory");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.InventoryFieldValue", b =>
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryFieldValue", b =>
                 {
-                    b.HasOne("Course.Database.Entity.InventoryFieldInfo", "Field")
+                    b.HasOne("Course.Database.Entity.Inventory.InventoryFieldInfo", "Field")
                         .WithMany()
                         .HasForeignKey("FieldId");
 
-                    b.HasOne("Course.Database.Entity.InventoryItem", "InventoryItem")
-                        .WithMany("CustomFields")
+                    b.HasOne("Course.Database.Entity.Inventory.InventoryItem", "InventoryItem")
+                        .WithMany("CustomFieldValues")
                         .HasForeignKey("InventoryItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -518,15 +505,15 @@ namespace Course.Database.Migrations
                     b.Navigation("InventoryItem");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.InventoryItem", b =>
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryItem", b =>
                 {
-                    b.HasOne("Course.Database.Entity.Inventory", "Inventory")
+                    b.HasOne("Course.Database.Entity.Inventory.InventoryEntity", "Inventory")
                         .WithMany("Items")
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Course.Database.Entity.ApplicationUser", "User")
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -535,15 +522,15 @@ namespace Course.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.UserAccess", b =>
+            modelBuilder.Entity("Course.Database.Entity.User.UserAccess", b =>
                 {
-                    b.HasOne("Course.Database.Entity.Inventory", "Inventory")
+                    b.HasOne("Course.Database.Entity.Inventory.InventoryEntity", "Inventory")
                         .WithMany("AccessList")
                         .HasForeignKey("InventoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Course.Database.Entity.ApplicationUser", "User")
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", "User")
                         .WithMany("AccessList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -554,15 +541,15 @@ namespace Course.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.UserLikes", b =>
+            modelBuilder.Entity("Course.Database.Entity.User.UserLikes", b =>
                 {
-                    b.HasOne("Course.Database.Entity.InventoryItem", "Item")
+                    b.HasOne("Course.Database.Entity.Inventory.InventoryItem", "Item")
                         .WithMany("Likes")
                         .HasForeignKey("InventoryItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Course.Database.Entity.ApplicationUser", "User")
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -584,7 +571,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Course.Database.Entity.ApplicationUser", null)
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -593,7 +580,7 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Course.Database.Entity.ApplicationUser", null)
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -608,7 +595,7 @@ namespace Course.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Course.Database.Entity.ApplicationUser", null)
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -617,30 +604,19 @@ namespace Course.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Course.Database.Entity.ApplicationUser", null)
+                    b.HasOne("Course.Database.Entity.User.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.ApplicationUser", b =>
-                {
-                    b.Navigation("AccessList");
-
-                    b.Navigation("CreatedInventories");
-
-                    b.Navigation("Likes");
-
-                    b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("Course.Database.Entity.Category", b =>
+            modelBuilder.Entity("Course.Database.Entity.Inventory.Category", b =>
                 {
                     b.Navigation("Inventories");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.Inventory", b =>
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryEntity", b =>
                 {
                     b.Navigation("AccessList");
 
@@ -651,11 +627,22 @@ namespace Course.Database.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("Course.Database.Entity.InventoryItem", b =>
+            modelBuilder.Entity("Course.Database.Entity.Inventory.InventoryItem", b =>
                 {
-                    b.Navigation("CustomFields");
+                    b.Navigation("CustomFieldValues");
 
                     b.Navigation("Likes");
+                });
+
+            modelBuilder.Entity("Course.Database.Entity.User.ApplicationUser", b =>
+                {
+                    b.Navigation("AccessList");
+
+                    b.Navigation("CreatedInventories");
+
+                    b.Navigation("Likes");
+
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

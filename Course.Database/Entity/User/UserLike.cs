@@ -4,8 +4,8 @@ namespace Course.Database.Entity.User;
 
 public class UserLikes
 {
-    public Guid InventoryItemId { get; set; }
-    public string UserId { get; set; } = string.Empty;
+    public required string InventoryItemId { get; set; }
+    public required string UserId { get; set; }
     public DateTime CreatedAt { get; set; }
 
     public InventoryItem? Item { get; set; }

@@ -2,5 +2,5 @@ namespace Course.Database.Entity;
 
 public class BaseEntity
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 }

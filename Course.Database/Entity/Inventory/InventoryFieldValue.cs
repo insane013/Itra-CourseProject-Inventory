@@ -4,12 +4,12 @@ namespace Course.Database.Entity.Inventory;
 
 public class InventoryFieldValue : BaseEntity
 {
-    public Guid InventoryItemId { get; set; }
-    public Guid FieldInfoId { get; set; }
+    public required string InventoryItemId { get; set; }
+    public required string FieldInfoId { get; set; }
     public string? Value { get; set; }
 
-    [Timestamp]
-    public required byte[] RowVersion { get; set; }
+    [ConcurrencyCheck]
+    public Guid Version { get; set; }
 
     public InventoryItem? InventoryItem { get; set; }
     public InventoryFieldInfo? Field { get; set; }
