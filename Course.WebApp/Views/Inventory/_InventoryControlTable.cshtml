@@ -7,6 +7,9 @@
     var showCheckboxes = Model.ShowCheckboxes;
 }
 
+@if(showCheckboxes) {
+    @await Html.PartialAsync("/Views/Inventory/_TableToolbar.cshtml")
+}
 <table class="table table-bordered table-hover text-center inventory-table w-100"
        data-url="@Url.Action("GetInventories", "Inventory", new { type = ViewData["Type"] })"
        data-checkboxes="@showCheckboxes.ToString().ToLower()">

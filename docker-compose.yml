@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  inventory:
+    build: .
+    container_name: inventory
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/Data
+      - ./keys:/root/.aspnet/DataProtection-Keys
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
