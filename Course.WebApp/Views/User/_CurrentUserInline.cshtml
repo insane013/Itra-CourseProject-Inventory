@@ -1,0 +1,12 @@
+@using System.Security.Claims
+@{
+    var name = User.FindFirstValue(ClaimTypes.Email);
+}
+
+@{
+    Layout = null;
+}
+
+<a href="@Url.Action("UserPage", "User", new {email = @name})" class="fw-semibold text-white">
+    <i class="fa-solid fa-user me-1"></i> @name
+</a>

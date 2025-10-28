@@ -1,24 +1,25 @@
+using System.Threading.Tasks;
 using Course.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Course.Services.Mapper;
 
 public static class PaginationHelper
 {
-    public static PaginatedResult<TOut> Paginate<TIn, TOut>(
-        IEnumerable<TIn> source,
+    public static async Task<PaginatedResult<TOut>> Paginate<TIn, TOut>(
+        IQueryable<TIn> source,
         int pageNumber,
         int pageSize,
         Func<TIn, TOut> map)
     {
-        var materailizedSource = source.ToList();
+        var count = await source.CountAsync();
 
-        var count = materailizedSource.Count;
-
-        var paged = materailizedSource
+        var paged = await source
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Select(map)
-            .ToList();
+            .ToListAsync();
+
+        var mapped = paged.Select(map).ToList();
 
         return new PaginatedResult<TOut>
         {
@@ -26,7 +27,7 @@ public static class PaginationHelper
             PageSize = pageSize,
             CurrentPage = pageNumber,
             PageCount = (int)Math.Ceiling(count / (double)pageSize),
-            Items = paged,
+            Items = mapped,
         };
     }
 }

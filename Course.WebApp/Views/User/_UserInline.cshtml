@@ -1,0 +1,10 @@
+@using Course.Models.User
+@model User
+
+@{
+    Layout = null;
+}
+
+<a href="@Url.Action("UserPage", "User", new {Id = Model.Id})" class="fw-semibold text-white">
+    <i class="fa-solid fa-user me-1"></i> @Model.UserName
+</a>

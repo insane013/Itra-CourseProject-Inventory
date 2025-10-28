@@ -19,7 +19,7 @@
             <tbody>
                 @foreach (var inventory in Model)
                 {
-                    @await Html.PartialAsync("_InventoryTableViewMini", inventory)
+                    @await Html.PartialAsync("_InventoryMiniTableItem", inventory)
                 }
             </tbody>
         </table>

@@ -11,6 +11,7 @@ public class UserMapper: Profile
     public UserMapper()
     {
         _ = this.CreateMap<ApplicationUser, User>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(x => x.Id))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(x => x.Email))
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(x => x.FullName))
             .ForMember(dest => dest.LastLoginTime, opt => opt.MapFrom(x => x.LastLoginTime))

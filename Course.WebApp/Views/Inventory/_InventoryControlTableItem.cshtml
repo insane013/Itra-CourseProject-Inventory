@@ -1,0 +1,18 @@
+@using Course.Models.Inventory
+
+@model (InventoryCommonView inv, bool showCheckboxes)
+
+<tr>
+    @if(Model.showCheckboxes)
+    {
+        <td>
+            <input class="form-check-input inventoryCheckbox" type="checkbox" name="inventoryList" value="@Model.inv.Id" />
+        </td>
+    }
+    <td>
+        <img src="@Model.inv.ImageUrl" alt="@Model.inv.Title" class="img-fluid rounded" style="max-height: 80px;">
+    </td>
+    <td class="text-truncate" style="max-width: 200px;">@Model.inv.Title</td>
+    <td class="text-start">@Model.inv.Description</td>
+    <td>@Model.inv.CreatorName</td>
+</tr>

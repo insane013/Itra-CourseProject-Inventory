@@ -1,0 +1,31 @@
+@using Course.Core
+@using Course.Models.Inventory
+@using System.Security.Claims
+@model (PaginatedResult<InventoryCommonView> Items, bool ShowCheckboxes)
+
+@{
+    var showCheckboxes = Model.ShowCheckboxes;
+}
+
+<table class="table table-bordered table-hover text-center inventory-table w-100"
+       data-url="@Url.Action("GetInventories", "Inventory", new { type = ViewData["Type"] })"
+       data-checkboxes="@showCheckboxes.ToString().ToLower()">
+    <thead class="table-dark">
+        <tr>
+            @if (showCheckboxes)
+            {
+                <th style="width:30px;"><input type="checkbox" class="select-all" /></th>
+            }
+            <th>Image</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Creator</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var inventory in Model.Items.Items)
+        {
+            @await Html.PartialAsync("/Views/Inventory/_InventoryControlTableItem.cshtml", (inventory, showCheckboxes))
+        }
+    </tbody>
+</table>

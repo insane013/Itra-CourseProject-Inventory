@@ -31,6 +31,6 @@ public class InventoryMapper: Profile
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(x => x.CreatedAt))
             .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(x => "a80b04f2-7732-48a0-ae9a-7bc58b156a6c"))
             .ForMember(dest => dest.Version, opt => opt.MapFrom(x => Guid.NewGuid()))
-            .ForMember(dest => dest.CreatorId, opt => opt.MapFrom(x => "a80b04f2-7732-48a0-ae9a-7bc58b156a6c"));
+            .ForMember(dest => dest.CreatorId, opt => opt.MapFrom(x => x.CreatedBy));
     }
 }

@@ -1,0 +1,32 @@
+@using Course.Models.ViewModels
+@model UserPageView
+
+@{
+    ViewBag.Title = "Inventory Tabs";
+}
+
+<div class="container mt-4">
+    <!-- Вкладки -->
+    <ul class="nav nav-tabs" id="inventoryTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="tab-one" data-bs-toggle="tab" data-bs-target="#content-one" type="button" role="tab">
+                Owned Inventories
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tab-two" data-bs-toggle="tab" data-bs-target="#content-two" type="button" role="tab">
+                Inventories with write access
+            </button>
+        </li>
+    </ul>
+
+    <!-- Содержимое вкладок -->
+    <div class="tab-content border border-top-0 p-3 bg-light shadow-sm rounded-bottom" id="inventoryTabsContent">
+        <div class="tab-pane fade show active" id="content-one" role="tabpanel">
+            @await Html.PartialAsync("/Views/Inventory/_InventoryControlTable.cshtml", (Model.OwnedInventories, true))
+        </div>
+        <div class="tab-pane fade" id="content-two" role="tabpanel">
+            @await Html.PartialAsync("/Views/Inventory/_InventoryControlTable.cshtml", (Model.OwnedInventories, false))
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@ using Course.Database.Repository.Interfaces;
 using Course.Models.Inventory;
 using Course.Services.Mapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Course.Services.Inventory;
@@ -21,14 +22,33 @@ public class InventoryService : BaseService, IInventoryService
         this.repository = repository;
     }
 
-    async Task<PaginatedResult<InventoryCommonView>> IInventoryService.GetFullInventoryList(InventoryFilter filter)
+    async Task<PaginatedResult<InventoryCommonView>> IInventoryService.GetFilteredInventoryList(InventoryFilter filter)
     {
-        var inventories = await this.repository.GetAll();
+        var inventoryQuery = this.repository.GetAll();
 
-        inventories = inventories.OrderBy(x => x.Title);
+        inventoryQuery = inventoryQuery.OrderBy(x => x.Title);
 
-        return PaginationHelper.Paginate(
-            inventories,
+        if (!string.IsNullOrWhiteSpace(filter.CreatedBy))
+        {
+            inventoryQuery = inventoryQuery.Where(x => x.CreatorId == filter.CreatedBy);
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.AccessableBy))
+        {
+            inventoryQuery = inventoryQuery.Where(x => x.CreatorId == filter.CreatedBy); // check access
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.Search))
+        {
+            var search = $"%{filter.Search}%";
+            
+            inventoryQuery = inventoryQuery.Where(i =>
+                EF.Functions.Like(i.Title, search) ||
+                EF.Functions.Like(i.Description, search));
+        }
+
+        return await PaginationHelper.Paginate(
+            inventoryQuery,
             filter.PageNumber,
             filter.PageSize,
             x => this.mapper.Map<InventoryCommonView>(x)
@@ -38,7 +58,8 @@ public class InventoryService : BaseService, IInventoryService
     async Task<InventoryCommonView?> IInventoryService.CreateInventory(string? currentUserId, InventoryCreateDto model)
     {
         await this.CheckUserAccess(currentUserId);
-
+        model.CreatedBy = currentUserId;
+        
         var entity = this.mapper.Map<InventoryEntity>(model);
 
         this._logger.LogWarning($"Category: {entity.CategoryId}");
@@ -53,7 +74,7 @@ public class InventoryService : BaseService, IInventoryService
     {
         if (string.IsNullOrWhiteSpace(userId))
         {
-            // throw new AccessDeniedException("You have to login to non-blocked account to use the app.");
+            throw new AccessDeniedException("You have to login to non-blocked account to use the app.");
         }
 
         // implement in dedicated service

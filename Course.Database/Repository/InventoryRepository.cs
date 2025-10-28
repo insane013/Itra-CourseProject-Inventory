@@ -12,13 +12,12 @@ public class InventoryRepository : BaseRepository<InventoryEntity>, IInventoryRe
         
     }
 
-    public async Task<IEnumerable<InventoryEntity>> GetAll()
+    public IQueryable<InventoryEntity> GetAll()
     {
-        return await this._dbSet
+        return this._dbSet
                    .Include(i => i.Creator)
                    .Include(i => i.AccessList)
-                   .AsNoTracking()
-                   .ToListAsync();
+                   .AsNoTracking();
     }
 
     public override async Task<InventoryEntity?> GetById(string id)

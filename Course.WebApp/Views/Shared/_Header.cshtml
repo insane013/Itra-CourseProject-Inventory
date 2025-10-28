@@ -13,9 +13,7 @@
 
         <!-- ПОЛЬЗОВАТЕЛЬ И ВЫХОД СПРАВА -->
         <div class="d-flex align-items-center gap-3">
-            <div class="fw-semibold text-white">
-                <i class="fa-solid fa-user me-1"></i> @email
-            </div>
+            @await Html.PartialAsync("/Views/User/_CurrentUserInline.cshtml")
             <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
                 <button type="submit" class="btn btn-outline-light">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
